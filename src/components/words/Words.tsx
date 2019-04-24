@@ -18,12 +18,13 @@ type WordsProps = {
     date: Date;
 }
 
-export const Words: FunctionComponent<WordsProps> = ({date}) => <WordsStyled>
+export const Words: FunctionComponent<WordsProps> = React.memo((props) => {console.log(props); return <WordsStyled>
     {
-        [...timeItems, ...hourItems].map(item => timeInWords(date).includes(item)
-            ? <WordActive> {item.title} </WordActive>
-            : <WordInactive> {item.title} </WordInactive>)
+        [...timeItems, ...hourItems].map(item => timeInWords(props.date).includes(item)
+            ? <WordActive key={item.type + "-" + item.title}> {item.title} </WordActive>
+            : <WordInactive key={item.type + "-" + item.title}> {item.title} </WordInactive>
+        )
     }
-</WordsStyled>;
+</WordsStyled>;}, (prev, next) => prev.date.getMinutes() === next.date.getMinutes());
 
 export default Words;
