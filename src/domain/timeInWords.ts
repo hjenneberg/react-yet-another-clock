@@ -1,4 +1,4 @@
-interface typedItem {
+export interface typedItem {
     type: string;
     title: string;
 }
