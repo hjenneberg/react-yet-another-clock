@@ -3,17 +3,21 @@ import * as React from "react";
 import timeInWords, {hourItems, timeItems} from "../../domain/timeInWords";
 import {FunctionComponent} from "react";
 
-const WordActive = styled.span`
+const Active = styled.span`
 `;
-const WordInactive = styled.span`
-    opacity: .15;
+const Inactive = styled.span`
+    opacity: .3;
 `;
 const WordsStyled = styled.div`
     text-transform: uppercase;
     font-size: 2em;
     line-height: 1.35;
-    width: 20vw;
     text-align: center;
+    color: gainsboro;
+    width: 90vw;
+    @media all and (min-width: 1025px) {
+        width: 25vw
+    };
 `;
 
 type WordsProps = {
@@ -21,11 +25,11 @@ type WordsProps = {
 }
 
 export const Words: FunctionComponent<WordsProps> = React.memo(({date}) => <WordsStyled>
-    <WordActive>Es ist</WordActive>
+    <Active>Es ist</Active>
     {
         [...timeItems, ...hourItems].map(item => timeInWords(date).includes(item)
-            ? <WordActive key={item.type + "-" + item.title}> {item.title} </WordActive>
-            : <WordInactive key={item.type + "-" + item.title}> {item.title} </WordInactive>
+            ? <Active key={item.type + "|" + item.title}> {item.title} </Active>
+            : <Inactive key={item.type + "|" + item.title}> {item.title} </Inactive>
         )
     }
 </WordsStyled>, (prev, next) => prev.date.getMinutes() === next.date.getMinutes());

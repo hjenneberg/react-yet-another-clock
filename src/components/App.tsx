@@ -1,17 +1,6 @@
 import * as React from "react";
-import styled from "styled-components";
 import {useEffect, useState} from "react";
 import Words from "./words/Words";
-
-const AppStyled = styled.div`
-    font-family: Montserrat, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: darkolivegreen;
-    width: 100vw;
-    height: 100vh;
-`;
 
 const App = () => {
     const [date, setDate] = useState(new Date());
@@ -22,7 +11,7 @@ const App = () => {
         return () => clearInterval(updateInterval);
     });
 
-    return <AppStyled><Words date={date}/></AppStyled>;
+    return <Words date={date}/>;
 };
 
 export default App;
