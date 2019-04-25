@@ -7,5 +7,15 @@
         "target": "es2016",
         "jsx": "react",
         "allowJs": true
+    },
+    "exclude": [
+        "**/*.test.ts"
+    ],
+    "jest": {
+        "globals": {
+            "ts-jest": {
+                "disableSourceMapSupport": true
+            }
+        }
     }
 }
