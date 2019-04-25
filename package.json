@@ -1,7 +1,7 @@
 {
     "name": "react-yet-another-clock",
-    "version": "1.0.0",
-    "description": "",
+    "version": "0.1.0",
+    "description": "Just another fuzzy clock",
     "author": "Jens Henneberg",
     "license": "MIT",
     "sideEffects": false,
