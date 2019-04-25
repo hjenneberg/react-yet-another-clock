@@ -10,5 +10,12 @@
     },
     "exclude": [
         "**/*.test.ts"
-    ]
+    ],
+    "jest": {
+        "globals": {
+            "ts-jest": {
+                "disableSourceMapSupport": true
+            }
+        }
+    }
 }

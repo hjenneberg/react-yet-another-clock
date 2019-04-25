@@ -6,7 +6,7 @@
     "license": "MIT",
     "sideEffects": false,
     "scripts": {
-        "test": "jest --watch --coverage",
+        "test": "jest",
         "build": "webpack --config webpack.prod.js",
         "start": "webpack-dev-server --open --config webpack.dev.js"
     },
@@ -28,7 +28,7 @@
         "style-loader": "^0.23.1",
         "ts-jest": "^24.0.2",
         "ts-loader": "^5.4.3",
-        "typescript": "^3.4.4",
+        "typescript": "^3.4.5",
         "webpack": "^4.29.6",
         "webpack-cli": "^3.3.1",
         "webpack-dev-server": "^3.2.1",
