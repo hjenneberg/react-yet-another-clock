@@ -1,17 +1,16 @@
-import * as React from "react";
-import {useEffect, useState} from "react";
-import Words from "./words/Words";
+import * as React from 'react';
+import Words from './words/Words';
 
-const App = () => {
-    const [date, setDate] = useState(new Date());
+const App = (): JSX.Element => {
+    const [date, setDate] = React.useState(new Date());
 
-    useEffect(() => {
-        const updateInterval = setInterval(() => setDate(new Date()), 1000);
+    React.useEffect((): React.EffectCallback => {
+        const updateInterval = setInterval((): void => setDate(new Date()), 1000);
 
-        return () => clearInterval(updateInterval);
+        return (): void => clearInterval(updateInterval);
     });
 
-    return <Words date={date}/>;
+    return <Words date={date} />;
 };
 
 export default App;
