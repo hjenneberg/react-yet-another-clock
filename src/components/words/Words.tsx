@@ -1,7 +1,11 @@
-import styled from "styled-components";
-import * as React from "react";
-import timeInWords, {hourItems, timeItems} from "../../domain/timeInWords";
-import {FunctionComponent} from "react";
+import styled from 'styled-components';
+import * as React from 'react';
+
+import timeAsWords from '../../domain/timeAsWords';
+import ItemInterface from '../../domain/items/ItemInterface';
+import PropsInterface from './PropsInterface';
+import timeItems from '../../domain/items/timeItems';
+import hourItems from '../../domain/items/hourItems';
 
 const Active = styled.span`
 `;
@@ -20,18 +24,29 @@ const WordsStyled = styled.div`
     };
 `;
 
-type WordsProps = {
-    date: Date;
-}
-
-export const Words: FunctionComponent<WordsProps> = React.memo(({date}) => <WordsStyled>
-    <Active>Es ist</Active>
-    {
-        [...timeItems, ...hourItems].map(item => timeInWords(date).includes(item)
-            ? <Active key={item.type + "|" + item.title}> {item.title} </Active>
-            : <Inactive key={item.type + "|" + item.title}> {item.title} </Inactive>
-        )
-    }
-</WordsStyled>, (prev, next) => prev.date.getMinutes() === next.date.getMinutes());
+export const Words: React.FunctionComponent<PropsInterface> = (props: PropsInterface): JSX.Element => (
+    <WordsStyled>
+        <Active>Es ist</Active>
+        {
+            [...timeItems, ...hourItems].map((item: ItemInterface): JSX.Element => (
+                timeAsWords(props.date).includes(item)
+                    ? (
+                        <Active key={`${item.type}|${item.title}`}>
+                            {' '}
+                            {item.title}
+                            {' '}
+                        </Active>
+                    )
+                    : (
+                        <Inactive key={`${item.type}|${item.title}`}>
+                            {' '}
+                            {item.title}
+                            {' '}
+                        </Inactive>
+                    )
+            ))
+        }
+    </WordsStyled>
+);
 
 export default Words;
