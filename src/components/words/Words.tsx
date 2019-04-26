@@ -7,12 +7,12 @@ import PropsInterface from './PropsInterface';
 import timeItems from '../../domain/items/timeItems';
 import hourItems from '../../domain/items/hourItems';
 
-const Active = styled.span`
+export const Active = styled.span`
 `;
-const Inactive = styled.span`
+export const Inactive = styled.span`
     opacity: .3;
 `;
-const WordsStyled = styled.div`
+export const WordsStyled = styled.div`
     text-transform: uppercase;
     font-size: 2em;
     line-height: 1.35;
