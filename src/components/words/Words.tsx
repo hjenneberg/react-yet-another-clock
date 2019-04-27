@@ -7,9 +7,13 @@ import PropsInterface from './PropsInterface';
 import timeItems from '../../domain/items/timeItems';
 import hourItems from '../../domain/items/hourItems';
 
-export const Active = styled.span`
+const Word = styled.span`
+    display: inline-block;
+    margin: auto 5px;
 `;
-export const Inactive = styled.span`
+export const WordActive = styled(Word)`
+`;
+export const WordInactive = styled(Word)`
     opacity: .3;
 `;
 export const WordsStyled = styled.div`
@@ -26,23 +30,25 @@ export const WordsStyled = styled.div`
 
 export const Words: React.FunctionComponent<PropsInterface> = (props: PropsInterface): JSX.Element => (
     <WordsStyled>
-        <Active>Es ist</Active>
+        <WordActive>Es</WordActive>
+        <WordActive>ist</WordActive>
+        <br />
         {
             [...timeItems, ...hourItems].map((item: ItemInterface): JSX.Element => (
                 timeAsWords(props.date).includes(item)
                     ? (
-                        <Active key={`${item.type}|${item.title}`}>
+                        <WordActive key={`${item.type}|${item.title}`}>
                             {' '}
                             {item.title}
                             {' '}
-                        </Active>
+                        </WordActive>
                     )
                     : (
-                        <Inactive key={`${item.type}|${item.title}`}>
+                        <WordInactive key={`${item.type}|${item.title}`}>
                             {' '}
                             {item.title}
                             {' '}
-                        </Inactive>
+                        </WordInactive>
                     )
             ))
         }
