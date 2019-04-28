@@ -1,7 +1,6 @@
 import ItemInterface from './Items/ItemInterface';
 import hourItems from './Items/hourItems';
 import timeItems from './Items/timeItems';
-import meridiemItems from './Items/meridiemItems';
 
 const hourAsWord = (date: Date, offset: number = 0): ItemInterface => {
     const hour = (date.getHours() + offset) % 12;
@@ -11,24 +10,6 @@ const hourAsWord = (date: Date, offset: number = 0): ItemInterface => {
 const minuteAsWords = (titles: string[]): ItemInterface[] => timeItems.filter(
     (item): boolean => titles.includes(item.title),
 );
-
-const meridiemAsWord = (title: string): ItemInterface => {
-    let parts: ItemInterface;
-    if ('night' === title) {
-        // eslint-disable-next-line prefer-destructuring
-        parts = meridiemItems[4];
-    }
-    if ('morning' === title) {
-        // eslint-disable-next-line prefer-destructuring
-        parts = meridiemItems[0];
-    }
-    if ('prenoon' === title) {
-        // eslint-disable-next-line prefer-destructuring
-        parts = meridiemItems[1];
-    }
-
-    return parts;
-};
 
 export const timeAsWords = (date: Date): ItemInterface[] => {
     let parts: ItemInterface[] = [];
@@ -47,6 +28,9 @@ export const timeAsWords = (date: Date): ItemInterface[] => {
     const isFiveTo = (53 <= date.getMinutes() && date.getMinutes() <= 57);
     const isShortlyTo = (58 <= date.getMinutes() && date.getMinutes() <= 59);
 
+    if (isShortlyPast) {
+        parts = [...minuteAsWords(['um'])];
+    }
     if (isFivePast) {
         parts = [...minuteAsWords(['fünf', 'nach'])];
     }
@@ -80,6 +64,9 @@ export const timeAsWords = (date: Date): ItemInterface[] => {
     if (isFiveTo) {
         parts = [...minuteAsWords(['fünf', 'vor'])];
     }
+    if (isShortlyTo) {
+        parts = [...minuteAsWords(['um'])];
+    }
 
     const isThisHour = isShortlyPast || isFivePast || isTenPast || isTwentyPast;
     const isNextHour = isQuarter || isFiveToHalf || isHalf
@@ -90,20 +77,6 @@ export const timeAsWords = (date: Date): ItemInterface[] => {
     }
     if (isNextHour) {
         parts = [...parts, hourAsWord(date, 1)];
-    }
-
-    const isNight = (23 === date.getHours() || (0 <= date.getHours() && date.getHours() <= 4));
-    const isMorning = (5 <= date.getHours() && date.getHours() <= 9);
-    const isPreNoon = (10 <= date.getHours() && date.getHours() <= 11);
-
-    if (isNight) {
-        parts = [...parts, meridiemAsWord('night')];
-    }
-    if (isMorning) {
-        parts = [...parts, meridiemAsWord('morning')];
-    }
-    if (isPreNoon) {
-        parts = [...parts, meridiemAsWord('prenoon')];
     }
 
     return parts;

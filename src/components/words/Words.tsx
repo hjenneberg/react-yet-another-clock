@@ -6,7 +6,6 @@ import ItemInterface from '../../domain/Items/ItemInterface';
 import PropsInterface from './PropsInterface';
 import timeItems from '../../domain/Items/timeItems';
 import hourItems from '../../domain/Items/hourItems';
-import meridiemItems from '../../domain/Items/meridiemItems';
 
 const Word = styled.span`
     display: inline-block;
@@ -52,7 +51,7 @@ export const Words: React.FunctionComponent<PropsInterface> = ({ date }): JSX.El
         <WordActive>Es</WordActive>
         <WordActive>ist</WordActive>
         {
-            [...timeItems, ...hourItems, { type: 'plain', title: 'Uhr' }, ...meridiemItems].map(itemDecider(date))
+            [...timeItems, ...hourItems].map(itemDecider(date))
         }
     </WordsStyled>
 );
