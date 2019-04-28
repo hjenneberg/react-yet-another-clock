@@ -28,7 +28,7 @@ export const WordsStyled = styled.div`
     };
 `;
 
-const itemDecider = (date: Date) => (item: ItemInterface): JSX.Element => (
+const itemDecider = (date: Date) => (item: ItemInterface): React.ReactElement => (
     item.type === 'plain' || timeAsWords(date).includes(item)
         ? (
             <WordActive key={`${item.type}|${item.title}`}>
@@ -46,14 +46,10 @@ const itemDecider = (date: Date) => (item: ItemInterface): JSX.Element => (
         )
 );
 
-export const Words: React.FunctionComponent<PropsInterface> = ({ date }): JSX.Element => (
-    <WordsStyled>
-        <WordActive>Es</WordActive>
-        <WordActive>ist</WordActive>
-        {
-            [...timeItems, ...hourItems].map(itemDecider(date))
-        }
-    </WordsStyled>
+const words = [{ type: 'plain', title: 'Es' }, { type: 'plain', title: 'ist' }, ...timeItems, ...hourItems];
+
+export const Words: React.FunctionComponent<PropsInterface> = ({ date }): React.ReactElement => (
+    <WordsStyled>{ words.map(itemDecider(date)) }</WordsStyled>
 );
 
 export default Words;
