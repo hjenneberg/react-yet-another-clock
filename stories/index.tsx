@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react';
 import Words, { WordActive, WordInactive, WordsStyled } from '../src/components/words/Words';
 import App from '../src/components/App';
 
-storiesOf('a styled word', module)
+storiesOf('a word', module)
     .add('that is active', (): JSX.Element => (
         <WordsStyled><WordActive>Active</WordActive></WordsStyled>
     ))
@@ -13,12 +13,12 @@ storiesOf('a styled word', module)
         <WordsStyled><WordInactive>Inactive</WordInactive></WordsStyled>
     ));
 
-storiesOf('certains words', module)
-    .add('that …', (): JSX.Element => (
-        <Words date={new Date()} />
+storiesOf('all words', module)
+    .add('that show a certain point in time', (): JSX.Element => (
+        <Words date={new Date('2019-04-28 12:05:00')} />
     ));
 
 storiesOf('a certain sentence', module)
-    .add('that is whatever', (): JSX.Element => (
+    .add('that is the App itself', (): JSX.Element => (
         <App />
     ));
