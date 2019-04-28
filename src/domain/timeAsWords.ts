@@ -1,6 +1,7 @@
-import ItemInterface from './items/ItemInterface';
-import hourItems from './items/hourItems';
-import timeItems from './items/timeItems';
+import ItemInterface from './Items/ItemInterface';
+import hourItems from './Items/hourItems';
+import timeItems from './Items/timeItems';
+import meridiemItems from './Items/meridiemItems';
 
 const hourAsWord = (date: Date, offset: number = 0): ItemInterface => {
     const hour = (date.getHours() + offset) % 12;
@@ -11,47 +12,101 @@ const minuteAsWords = (titles: string[]): ItemInterface[] => timeItems.filter(
     (item): boolean => titles.includes(item.title),
 );
 
+const meridiemAsWord = (title: string): ItemInterface => {
+    let parts: ItemInterface;
+    if ('night' === title) {
+        // eslint-disable-next-line prefer-destructuring
+        parts = meridiemItems[4];
+    }
+    if ('morning' === title) {
+        // eslint-disable-next-line prefer-destructuring
+        parts = meridiemItems[0];
+    }
+    if ('prenoon' === title) {
+        // eslint-disable-next-line prefer-destructuring
+        parts = meridiemItems[1];
+    }
+
+    return parts;
+};
+
 export const timeAsWords = (date: Date): ItemInterface[] => {
-    const minutes = date.getMinutes();
+    let parts: ItemInterface[] = [];
 
-    if (minutes >= 0 && minutes <= 2) {
-        return [...minuteAsWords(['um']), hourAsWord(date)];
+    const isShortlyPast = (0 <= date.getMinutes() && date.getMinutes() <= 2);
+    const isFivePast = (3 <= date.getMinutes() && date.getMinutes() <= 7);
+    const isTenPast = (8 <= date.getMinutes() && date.getMinutes() <= 12);
+    const isQuarter = (13 <= date.getMinutes() && date.getMinutes() <= 17);
+    const isTwentyPast = (18 <= date.getMinutes() && date.getMinutes() <= 22);
+    const isFiveToHalf = (23 <= date.getMinutes() && date.getMinutes() <= 27);
+    const isHalf = (28 <= date.getMinutes() && date.getMinutes() <= 32);
+    const isFivePastHalf = (33 <= date.getMinutes() && date.getMinutes() <= 37);
+    const isTwentyTo = (38 <= date.getMinutes() && date.getMinutes() <= 42);
+    const isQuarterTo = (43 <= date.getMinutes() && date.getMinutes() <= 47);
+    const isTenTo = (48 <= date.getMinutes() && date.getMinutes() <= 52);
+    const isFiveTo = (53 <= date.getMinutes() && date.getMinutes() <= 57);
+    const isShortlyTo = (58 <= date.getMinutes() && date.getMinutes() <= 59);
+
+    if (isFivePast) {
+        parts = [...minuteAsWords(['fünf', 'nach'])];
     }
-    if (minutes >= 3 && minutes <= 7) {
-        return [...minuteAsWords(['fünf', 'nach']), hourAsWord(date)];
+    if (isTenPast) {
+        parts = [...minuteAsWords(['zehn', 'nach'])];
     }
-    if (minutes >= 8 && minutes <= 12) {
-        return [...minuteAsWords(['zehn', 'nach']), hourAsWord(date)];
+    if (isQuarter) {
+        parts = [...minuteAsWords(['viertel'])];
     }
-    if (minutes >= 13 && minutes <= 17) {
-        return [...minuteAsWords(['viertel']), hourAsWord(date, 1)];
+    if (isTwentyPast) {
+        parts = [...minuteAsWords(['zwanzig', 'nach'])];
     }
-    if (minutes >= 18 && minutes <= 22) {
-        return [...minuteAsWords(['zwanzig', 'nach']), hourAsWord(date)];
+    if (isFiveToHalf) {
+        parts = [...minuteAsWords(['fünf', 'vor', 'halb'])];
     }
-    if (minutes >= 23 && minutes <= 27) {
-        return [...minuteAsWords(['fünf', 'vor', 'halb']), hourAsWord(date, 1)];
+    if (isHalf) {
+        parts = [...minuteAsWords(['halb'])];
     }
-    if (minutes >= 28 && minutes <= 32) {
-        return [...minuteAsWords(['halb']), hourAsWord(date, 1)];
+    if (isFivePastHalf) {
+        parts = [...minuteAsWords(['fünf', 'nach', 'halb'])];
     }
-    if (minutes >= 33 && minutes <= 37) {
-        return [...minuteAsWords(['fünf', 'nach', 'halb']), hourAsWord(date, 1)];
+    if (isTwentyTo) {
+        parts = [...minuteAsWords(['zwanzig', 'vor'])];
     }
-    if (minutes >= 38 && minutes <= 42) {
-        return [...minuteAsWords(['zwanzig', 'vor']), hourAsWord(date, 1)];
+    if (isQuarterTo) {
+        parts = [...minuteAsWords(['dreiviertel'])];
     }
-    if (minutes >= 43 && minutes <= 47) {
-        return [...minuteAsWords(['dreiviertel']), hourAsWord(date, 1)];
+    if (isTenTo) {
+        parts = [...minuteAsWords(['zehn', 'vor'])];
     }
-    if (minutes >= 48 && minutes <= 52) {
-        return [...minuteAsWords(['zehn', 'vor']), hourAsWord(date, 1)];
-    }
-    if (minutes >= 53 && minutes <= 57) {
-        return [...minuteAsWords(['fünf', 'vor']), hourAsWord(date, 1)];
+    if (isFiveTo) {
+        parts = [...minuteAsWords(['fünf', 'vor'])];
     }
 
-    return [...minuteAsWords(['um']), hourAsWord(date, 1)];
+    const isThisHour = isShortlyPast || isFivePast || isTenPast || isTwentyPast;
+    const isNextHour = isQuarter || isFiveToHalf || isHalf
+        || isFivePastHalf || isTwentyTo || isQuarterTo || isTenTo || isFiveTo || isShortlyTo;
+
+    if (isThisHour) {
+        parts = [...parts, hourAsWord(date)];
+    }
+    if (isNextHour) {
+        parts = [...parts, hourAsWord(date, 1)];
+    }
+
+    const isNight = (23 === date.getHours() || (0 <= date.getHours() && date.getHours() <= 4));
+    const isMorning = (5 <= date.getHours() && date.getHours() <= 9);
+    const isPreNoon = (10 <= date.getHours() && date.getHours() <= 11);
+
+    if (isNight) {
+        parts = [...parts, meridiemAsWord('night')];
+    }
+    if (isMorning) {
+        parts = [...parts, meridiemAsWord('morning')];
+    }
+    if (isPreNoon) {
+        parts = [...parts, meridiemAsWord('prenoon')];
+    }
+
+    return parts;
 };
 
 export default timeAsWords;
