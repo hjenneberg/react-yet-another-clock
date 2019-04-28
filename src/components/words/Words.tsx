@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import * as React from 'react';
 
 import timeAsWords from '../../domain/timeAsWords';
-import ItemInterface from '../../domain/items/ItemInterface';
+import ItemInterface from '../../domain/Items/ItemInterface';
 import PropsInterface from './PropsInterface';
-import timeItems from '../../domain/items/timeItems';
-import hourItems from '../../domain/items/hourItems';
+import timeItems from '../../domain/Items/timeItems';
+import hourItems from '../../domain/Items/hourItems';
+import meridiemItems from '../../domain/Items/meridiemItems';
 
 const Word = styled.span`
     display: inline-block;
@@ -18,39 +19,40 @@ export const WordInactive = styled(Word)`
 `;
 export const WordsStyled = styled.div`
     text-transform: uppercase;
-    font-size: 2em;
+    font-size: 1.5em;
     line-height: 1.35;
     text-align: center;
     color: gainsboro;
-    width: 90vw;
+    width: 85vw;
     @media all and (min-width: 1025px) {
-        width: 25vw
+        width: 20vw
     };
 `;
 
-export const Words: React.FunctionComponent<PropsInterface> = (props: PropsInterface): JSX.Element => (
+const itemDecider = (date: Date) => (item: ItemInterface): JSX.Element => (
+    item.type === 'plain' || timeAsWords(date).includes(item)
+        ? (
+            <WordActive key={`${item.type}|${item.title}`}>
+                {' '}
+                {item.title}
+                {' '}
+            </WordActive>
+        )
+        : (
+            <WordInactive key={`${item.type}|${item.title}`}>
+                {' '}
+                {item.title}
+                {' '}
+            </WordInactive>
+        )
+);
+
+export const Words: React.FunctionComponent<PropsInterface> = ({ date }): JSX.Element => (
     <WordsStyled>
         <WordActive>Es</WordActive>
         <WordActive>ist</WordActive>
-        <br />
         {
-            [...timeItems, ...hourItems].map((item: ItemInterface): JSX.Element => (
-                timeAsWords(props.date).includes(item)
-                    ? (
-                        <WordActive key={`${item.type}|${item.title}`}>
-                            {' '}
-                            {item.title}
-                            {' '}
-                        </WordActive>
-                    )
-                    : (
-                        <WordInactive key={`${item.type}|${item.title}`}>
-                            {' '}
-                            {item.title}
-                            {' '}
-                        </WordInactive>
-                    )
-            ))
+            [...timeItems, ...hourItems, { type: 'plain', title: 'Uhr' }, ...meridiemItems].map(itemDecider(date))
         }
     </WordsStyled>
 );
