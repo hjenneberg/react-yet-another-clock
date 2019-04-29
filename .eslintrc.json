@@ -28,9 +28,18 @@
             }
         }
     },
+    "overrides": [
+        {
+            "files": ["**/*.ts", "**/*.tsx"],
+            "rules": {
+                "react/prop-types": "off"
+            }
+        }
+    ],
     "rules": {
         "indent": ["error", 4],
         "max-len": ["error", { "code": 120 }],
+        "yoda": [0],
         "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }],
         "react/jsx-indent": ["error", 4]
     }

@@ -1,5 +1,5 @@
 import { timeAsWords } from './timeAsWords';
-import ItemInterface from './items/ItemInterface';
+import ItemInterface from './Items/ItemInterface';
 
 it.each([
     [

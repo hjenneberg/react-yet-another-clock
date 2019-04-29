@@ -2,51 +2,54 @@ import styled from 'styled-components';
 import * as React from 'react';
 
 import timeAsWords from '../../domain/timeAsWords';
-import ItemInterface from '../../domain/items/ItemInterface';
+import ItemInterface from '../../domain/Items/ItemInterface';
 import PropsInterface from './PropsInterface';
-import timeItems from '../../domain/items/timeItems';
-import hourItems from '../../domain/items/hourItems';
+import timeItems from '../../domain/Items/timeItems';
+import hourItems from '../../domain/Items/hourItems';
 
-export const Active = styled.span`
+const Word = styled.span`
+    display: inline-block;
+    margin: auto 5px;
 `;
-export const Inactive = styled.span`
+export const WordActive = styled(Word)`
+`;
+export const WordInactive = styled(Word)`
     opacity: .3;
 `;
 export const WordsStyled = styled.div`
     text-transform: uppercase;
-    font-size: 2em;
+    font-size: 1.5em;
     line-height: 1.35;
     text-align: center;
     color: gainsboro;
-    width: 90vw;
+    width: 85vw;
     @media all and (min-width: 1025px) {
-        width: 25vw
+        width: 20vw
     };
 `;
 
-export const Words: React.FunctionComponent<PropsInterface> = (props: PropsInterface): JSX.Element => (
-    <WordsStyled>
-        <Active>Es ist</Active>
-        {
-            [...timeItems, ...hourItems].map((item: ItemInterface): JSX.Element => (
-                timeAsWords(props.date).includes(item)
-                    ? (
-                        <Active key={`${item.type}|${item.title}`}>
-                            {' '}
-                            {item.title}
-                            {' '}
-                        </Active>
-                    )
-                    : (
-                        <Inactive key={`${item.type}|${item.title}`}>
-                            {' '}
-                            {item.title}
-                            {' '}
-                        </Inactive>
-                    )
-            ))
-        }
-    </WordsStyled>
+const map = (date: Date): (item: ItemInterface) => React.ReactElement => (item: ItemInterface): React.ReactElement => (
+    item.type === 'plain' || timeAsWords(date).includes(item)
+        ? (
+            <WordActive key={`${item.type}|${item.title}`}>
+                {' '}
+                {item.title}
+                {' '}
+            </WordActive>
+        )
+        : (
+            <WordInactive key={`${item.type}|${item.title}`}>
+                {' '}
+                {item.title}
+                {' '}
+            </WordInactive>
+        )
+);
+
+const words = [{ type: 'plain', title: 'Es' }, { type: 'plain', title: 'ist' }, ...timeItems, ...hourItems];
+
+export const Words: React.FunctionComponent<PropsInterface> = ({ date }: { date: Date }): React.ReactElement => (
+    <WordsStyled>{ words.map(map(date)) }</WordsStyled>
 );
 
 export default Words;
