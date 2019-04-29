@@ -1,7 +1,7 @@
 import ItemInterface from './ItemInterface';
 
 const hourAsWord: string[] = [
-    'ein',
+    'eins',
     'zwei',
     'drei',
     'vier',
