@@ -28,28 +28,32 @@ export const WordsStyled = styled.div`
     };
 `;
 
-const map = (date: Date): (item: ItemInterface) => React.ReactElement => (item: ItemInterface): React.ReactElement => (
-    item.type === 'plain' || timeAsWords(date).includes(item)
-        ? (
-            <WordActive key={`${item.type}|${item.title}`}>
-                {' '}
-                {item.title}
-                {' '}
-            </WordActive>
-        )
-        : (
-            <WordInactive key={`${item.type}|${item.title}`}>
-                {' '}
-                {item.title}
-                {' '}
-            </WordInactive>
-        )
-);
+const map = (date: Date): ((item: ItemInterface) => React.ReactElement) => {
+    const timeWords = timeAsWords(date);
+    return (item: ItemInterface): React.ReactElement => {
+        const isWordActive: boolean = item.type === 'plain' || timeWords.includes(item);
+        return isWordActive
+            ? (
+                <WordActive key={`${item.type}|${item.title}`}>
+                    {' '}
+                    {item.title}
+                    {' '}
+                </WordActive>
+            )
+            : (
+                <WordInactive key={`${item.type}|${item.title}`}>
+                    {' '}
+                    {item.title}
+                    {' '}
+                </WordInactive>
+            );
+    };
+};
 
 const words = [{ type: 'plain', title: 'Es' }, { type: 'plain', title: 'ist' }, ...timeItems, ...hourItems];
 
 export const Words: React.FunctionComponent<PropsInterface> = ({ date }: { date: Date }): React.ReactElement => (
-    <WordsStyled>{ words.map(map(date)) }</WordsStyled>
+    <WordsStyled>{words.map(map(date))}</WordsStyled>
 );
 
 export default Words;
