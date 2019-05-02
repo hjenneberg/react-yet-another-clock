@@ -1,11 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires,import/no-extraneous-dependencies */
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 module.exports = {
-    entry: {
-        app: './src/main.tsx',
-    },
     module: {
         rules: [
             {
@@ -21,15 +14,5 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.jsx', '.js'],
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            title: 'Yet Another Clock',
-            template: './dist/index.html',
-        }),
-    ],
-    output: {
-        filename: 'main.js',
-        path: path.resolve(__dirname, 'dist'),
     },
 };

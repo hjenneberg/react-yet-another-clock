@@ -5,15 +5,21 @@
     "author": "Jens Henneberg",
     "license": "MIT",
     "sideEffects": false,
+    "main": "lib/index.js",
+    "module": "src/components/App.tsx",
     "scripts": {
-        "test": "jest",
-        "build": "webpack --config webpack.prod.js",
         "start": "webpack-dev-server --open --config webpack.dev.js",
+        "build": "webpack --config webpack.prod.js",
+        "test": "jest",
         "storybook": "start-storybook"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/hjenneberg/react-yet-another-clock.git"
+    },
+    "peerDependencies": {
+        "react": "^16.8.4",
+        "react-dom": "^16.8.4"
     },
     "dependencies": {
         "@types/react": "^16.8.14",
