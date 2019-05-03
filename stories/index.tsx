@@ -14,11 +14,10 @@ storiesOf('a word', module)
     ));
 
 storiesOf('all words', module)
+    .addDecorator(storyFn => <div style={{ textAlign: 'center', width: '20%', margin: 'auto' }}>{storyFn()}</div>)
     .add('that show a certain point in time', (): JSX.Element => (
         <Words date={new Date('2019-04-28 12:05:00')} />
-    ));
-
-storiesOf('a certain sentence', module)
-    .add('that is the App itself', (): JSX.Element => (
+    ))
+    .add('that are the App itself', (): JSX.Element => (
         <App />
     ));
