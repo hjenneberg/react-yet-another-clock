@@ -17,6 +17,10 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         overflow: 'auto',
+        textTransform: 'uppercase',
+        fontSize: '1.5em',
+        lineHeight: '1.35',
+        textAlign: 'center',
     },
     innerStyle: {
         margin: 'auto',
