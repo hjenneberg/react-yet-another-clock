@@ -17,7 +17,8 @@ export const WordInactive = styled(Word)`
     opacity: .3;
 `;
 export const WordsStyled = styled.div`
-    color: gainsboro;
+    color: ${(props): string => props.theme.foreground};
+    background-color: ${(props): string => props.theme.background};
 `;
 
 const map = (date: Date): ((item: ItemInterface) => React.ReactElement) => {

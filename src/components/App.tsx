@@ -1,7 +1,10 @@
 import * as React from 'react';
-import Words from './words/Words';
+import { ThemeProvider } from 'styled-components';
 
-const App = (): JSX.Element => {
+import Words from './words/Words';
+import PropsInterface from './PropsInterface';
+
+export const App: React.FunctionComponent<PropsInterface> = ({ theme }): JSX.Element => {
     const [date, setDate] = React.useState(new Date());
 
     React.useEffect((): () => void => {
@@ -10,7 +13,7 @@ const App = (): JSX.Element => {
         return (): void => clearInterval(updateInterval);
     });
 
-    return <Words date={date} />;
+    return <ThemeProvider theme={theme}><Words date={date} /></ThemeProvider>;
 };
 
 export default App;

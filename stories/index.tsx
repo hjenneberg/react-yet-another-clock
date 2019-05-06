@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 
 import Words, { WordActive, WordInactive, WordsStyled } from '../src/components/words/Words';
 import App from '../src/components/App';
+import dark from '../src/ui/theme';
 
 storiesOf('a word', module)
     .add('that is active', (): JSX.Element => (
@@ -19,5 +20,5 @@ storiesOf('all words', module)
         <Words date={new Date('2019-04-28 12:05:00')} />
     ))
     .add('that are the App itself', (): JSX.Element => (
-        <App />
+        <App theme={dark} />
     ));

@@ -1,15 +1,13 @@
-import { configure, addDecorator } from '@storybook/react';
 import React from 'react';
-
-function loadStories() {
-    require('../stories/index.tsx');
-}
+import { addDecorator, configure } from '@storybook/react';
+import { ThemeProvider } from 'styled-components';
+import dark from '../src/ui/theme';
 
 const styles = {
     style: {
         fontFamily: 'Montserrat, sans-serif',
-        background: 'black',
         position: 'fixed',
+        background: 'black',
         top: 0,
         left: 0,
         bottom: 0,
@@ -28,6 +26,13 @@ const styles = {
         overflow: 'auto',
     },
 };
-addDecorator(storyFn => <div style={styles.style}><div style={styles.innerStyle}>{storyFn()}</div></div>);
+
+addDecorator(storyFn => <div style={styles.style}>
+    <div style={styles.innerStyle}><ThemeProvider theme={dark}>{storyFn()}</ThemeProvider></div>
+</div>);
+
+function loadStories() {
+    require('../stories/index.tsx');
+}
 
 configure(loadStories, module);
